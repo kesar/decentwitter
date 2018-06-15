@@ -15,5 +15,6 @@ export class PageComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.scatterService.load();
   }
 }

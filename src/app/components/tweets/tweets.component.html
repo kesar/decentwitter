@@ -38,9 +38,9 @@
               <div class="row">
                 <div class="col-xs-8 col-md-6">
                   <img [src]="'https://api.adorable.io/avatars/102/' + tweet.actor + '@adorable.png'" class="message-photo">
-                  <h4 class="message-name">{{tweet.actor}}</h4>
+                  <h4 class="message-name"><a routerLink="/tweets/{{tweet.actor}}">{{tweet.actor}}</a></h4>
                 </div>
-                <div class="col-xs-4 col-md-6 text-right message-date">{{tweet.created_at}}</div>
+                <div class="col-xs-4 col-md-6 text-right message-date">⏱ {{tweet.created_at}}</div>
               </div>
               <div class="row message-text">
                 {{tweet.msg}}
