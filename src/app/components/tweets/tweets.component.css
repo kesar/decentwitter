@@ -1,28 +1,28 @@
-.message-candidate {
-    background: rgba(229, 167, 132, 0.9);
-    padding: 40px;
-    max-width: 750px;
-    margin-bottom: 10px;
-}
-
-.message-hiring-manager {
-    padding: 40px;
-    max-width: 750px;
-    margin-bottom: 10px;
+.odd {
+    background: rgba(248, 248, 248, 0.9);
 }
 
 .messaging {
-    max-width: 750px;
+    font-family: 'Montserrat', sans-serif;
+    padding: 70px;
+    margin-bottom: 10px;
     margin-top: 20px;
 }
 
 .message-text {
+    margin-top: 20px;
+    margin-left: 10px;
+}
+
+.message-date {
+    font-family: 'Montserrat', sans-serif;
     margin-top: 10px;
+    font-size: 1.1em;
 }
 
 .message-photo {
-    width: 40px;
-    height: 40px;
+    width: 50px;
+    height: 50px;
     border-radius: 50%;
     object-fit: cover;
     object-position: center center;

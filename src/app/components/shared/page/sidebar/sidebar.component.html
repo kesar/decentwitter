@@ -8,10 +8,10 @@
 				<a routerLink="/tweets/{{accountName()}}" routerLinkActive="active"><i class="fa fa-exchange fa-fw"></i>Your Tweets</a>
 			</li>
 			<li *ngIf="isLogged()">
-				<a (click)="logout()" routerLinkActive="active"><i class="fa fa-lock fa-fw"></i> Logout</a>
+				<a (click)="logout()" href="#" routerLinkActive="active"><i class="fa fa-lock fa-fw"></i> Logout</a>
 			</li>
 			<li *ngIf="!isLogged()">
-				<a (click)="login()" routerLinkActive="active"><i class="fa fa-lock fa-fw"></i> Login</a>
+				<a (click)="login()" href="#" routerLinkActive="active"><i class="fa fa-lock fa-fw"></i> Login</a>
 			</li>
 		</ul>
 	</div>

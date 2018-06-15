@@ -1,11 +1,6 @@
 <app-page>
 	<div id="page-wrapper">
-		<div class="row">
-			<div class="col-lg-12">
-				<h1 class="page-header">Tweets</h1>
-			</div>
-			<!-- /.col-lg-12 -->
-		</div>
+		<br>
 
 		<div class="row">
 			<div class="col-lg-12">
@@ -29,13 +24,13 @@
 			<div class="col-lg-12">
 				<div class="panel panel-default">
 					<div class="panel-heading">
-						Tweets
+						📜 Timeline
 					</div>
 					<!-- /.panel-heading -->
 					<div class="panel-body">
 						<app-loading *ngIf="!tweets"></app-loading>
 
-						<div *ngFor="let tweet of tweets; let i = index; let odd = odd" [class.odd]="message-candidate" class="message-hiring-manager center-block">
+						<div *ngFor="let tweet of tweets; let i = index; let odd = odd; let even = even" [ngClass]="{ odd: odd, even: even}" class="messaging center-block">
 							<div class="row">
 								<div class="col-xs-8 col-md-6">
 									<img [src]="'https://api.adorable.io/avatars/102/' + tweet.actor + '@adorable.png'" class="message-photo">
