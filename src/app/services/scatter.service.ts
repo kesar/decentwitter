@@ -34,6 +34,10 @@ export class ScatterService {
   isLoggedIn() {
     return this.scatter && !!this.scatter.identity;
   }
+  accountName() {
+      const account = this.scatter.identity.accounts.find(acc => acc.blockchain === 'eos');
+      return account.name;
+  }
 
   tweet(msg: string) {
     this.load();
