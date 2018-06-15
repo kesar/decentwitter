@@ -38,17 +38,13 @@ export class TweetsComponent implements OnInit, OnDestroy {
   }
 
   tweet(msg: string) {
-    this.scatterService.tweet(msg,
-      function (transaction) {
-        this.msg = '';
-        console.log(transaction);
-        return;
-      }, function (error) {
-        $("#errorTransfer").modal();
-        console.log(error);
-        return;
-      }
-    );
+    this.scatterService.tweet(msg).then(transaction => {
+      this.msg = '';
+      console.log(transaction);
+    }).catch(error => {
+      $("#errorTransfer").modal();
+      console.log(error);
+    });
   }
 
   ngOnDestroy() {
