@@ -21,7 +21,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-    TimerObservable.create(0, 5000)
+    TimerObservable.create(0, 10000)
       .takeWhile(() => this.alive)
       .subscribe(() => {
         this.http.get(environment.apiUrl + '/tweets?page=' + this.page).subscribe(data => {
@@ -38,6 +38,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
   tweet(msg: string) {
     this.scatterService.tweet(msg,
       function (transaction) {
+        this.msg = '';
         console.log(transaction);
       }, function (error) {
         $("#errorTransfer").modal();

@@ -21,4 +21,12 @@ export class SidebarComponent implements OnInit {
     this.scatterService.logout();
     this.isLogged = false;
   }
+
+  login() {
+    this.scatterService.login(function () {
+      this.isLogged = true;
+    }, function () {
+      this.isLogged = false;
+    });
+  }
 }

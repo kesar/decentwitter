@@ -26,7 +26,7 @@ export class TweetsComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.name = this.route.snapshot.params['id'];
-    TimerObservable.create(0, 5000)
+    TimerObservable.create(0, 10000)
       .takeWhile(() => this.alive)
       .subscribe(() => {
           this.http.get(environment.apiUrl + '/tweets/' + this.name + '?page=' + this.page).subscribe(data => {
@@ -40,6 +40,7 @@ export class TweetsComponent implements OnInit, OnDestroy {
   tweet(msg: string) {
     this.scatterService.tweet(msg,
       function (transaction) {
+        this.msg = '';
         console.log(transaction);
       }, function (error) {
         $("#errorTransfer").modal();

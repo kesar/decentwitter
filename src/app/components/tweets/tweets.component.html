@@ -15,7 +15,7 @@
               <div class="input-group">
                 <input [(ngModel)]="msg" name="msg" required placeholder="Your awesome tweet..." type="text" class="form-control" aria-label="...">
                 <div class="input-group-btn">
-                  <button class="btn btn-default" type="button">Tweet!</button>
+                  <button class="btn btn-default" type="submit">Tweet!</button>
                 </div>
               </div>
             </form>
@@ -62,4 +62,24 @@
     <!-- /.row -->
   </div>
   <!-- /#page-wrapper -->
+
+
+  <div class="modal fade" id="errorTransfer" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+          <h4 class="modal-title" id="myModalLabel">Error tweetin'</h4>
+        </div>
+        <div class="modal-body">
+          Unable to send tweet.
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
 </app-page>

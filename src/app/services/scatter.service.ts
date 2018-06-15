@@ -28,6 +28,7 @@ export class ScatterService {
   }
 
   login(successCallback, errorCallbak) {
+    alert('login');
     const requirements = {accounts: [this.network]};
 
     let that = this;
@@ -46,10 +47,12 @@ export class ScatterService {
   }
 
   logout() {
+    alert('logout');
     //this.scatter.forgetIdentity().then(() => { this.identity = null });
   }
 
   tweet(msg: string, successCallback, errorCallback) {
+    alert(msg);
     let that = this;
     this.login(function () {
         that.eos.contract('something here', msg, []).then(transaction => {
