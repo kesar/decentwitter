@@ -35,6 +35,8 @@ export class DashboardComponent implements OnInit, OnDestroy {
     this.alive = false;
   }
 
+  isLogged() { return this.scatterService.isLoggedIn(); }
+
   tweet(msg: string) {
     this.scatterService.tweet(msg).then(transaction => {
       this.msg = '';

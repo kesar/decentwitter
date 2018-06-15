@@ -1,7 +1,6 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
-import {ActivatedRoute, Router} from '@angular/router';
+import {ActivatedRoute} from '@angular/router';
 import {HttpClient} from '@angular/common/http';
-import {Subscription} from 'rxjs/Subscription';
 import {environment} from '../../../environments/environment';
 import {TimerObservable} from 'rxjs/observable/TimerObservable';
 import {ScatterService} from '../../services/scatter.service';
@@ -16,11 +15,10 @@ export class TweetsComponent implements OnInit, OnDestroy {
   public name: string;
   public msg: string;
   public tweets = null;
-  private subscriber: Subscription;
   page = 0;
   private alive: boolean;
 
-  constructor(private route: ActivatedRoute, private http: HttpClient, private router: Router, private scatterService: ScatterService) {
+  constructor(private route: ActivatedRoute, private http: HttpClient, private scatterService: ScatterService) {
     this.alive = true;
   }
 
@@ -36,6 +34,8 @@ export class TweetsComponent implements OnInit, OnDestroy {
         }
       );
   }
+
+  isLogged() { return this.scatterService.isLoggedIn(); }
 
   tweet(msg: string) {
     this.scatterService.tweet(msg).then(transaction => {
