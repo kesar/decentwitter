@@ -13,9 +13,6 @@ export class ScatterService {
 
   load() {
     this.scatter = (<any>window).scatter;
-    if (this.identity) {
-      this.scatter.useIdentity(this.identity.hash);
-    }
 
     this.network = {
       blockchain: 'eos',
@@ -23,44 +20,25 @@ export class ScatterService {
       port: environment.eosPort,
       chainId: 'aca376f206b8fc25a6ed44dbdc66547c36c6c33e3a119ffbeaef943642f0e906'
     };
-    this.eos = this.scatter.eos(this.network, Eos, {}, environment.eosProtocol);
+    this.eos = this.scatter.eos(this.network, Eos, {chainId: this.network.chainId}, environment.eosProtocol);
   }
 
-  login(successCallback, errorCallbak) {
+  login() {
     const requirements = {accounts: [this.network]};
-
-    let that = this;
-    this.scatter.getIdentity(requirements).then(
-      function (identity) {
-        if (!identity) {
-          return errorCallbak(null);
-        }
-        that.identity = identity;
-        that.scatter.useIdentity(identity.hash);
-        successCallback();
-      }
-    ).catch(error => {
-      errorCallbak(error);
-    });
+    return this.scatter.getIdentity(requirements);
   }
 
   logout() {
-    this.scatter.forgetIdentity().then(() => { this.identity = null; });
+    this.scatter.forgetIdentity();
+  }
+  isLoggedIn() {
+    return this.scatter && !!this.scatter.identity;
   }
 
-  tweet(msg: string, successCallback, errorCallback) {
+  tweet(msg: string) {
     this.load();
-    let that = this;
-    this.login(function () {
-      that.eos.contract('decentwitter', {}).then(contract => contract.tweet(msg)).then(transaction => {
-          successCallback(transaction);
-          return;
-        }).catch(error => {
-          errorCallback(error);
-        });
-      }, function (error) {
-        errorCallback(error);
-      }
-    );
+    const account = this.scatter.identity.accounts.find(acc => acc.blockchain === 'eos');
+    const options = { authorization: [`${account.name}@${account.authority}`] };
+    return this.eos.contract('decentwitter').then(contract => contract.tweet(msg, options));
   }
 }

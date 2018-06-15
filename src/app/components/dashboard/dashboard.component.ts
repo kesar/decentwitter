@@ -26,7 +26,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
       .subscribe(() => {
         this.http.get(environment.apiUrl + '/tweets?page=' + this.page).subscribe(data => {
           this.tweets = data;
-          console.log(data);
+          // console.log(data);
         });
       });
   }
@@ -36,16 +36,12 @@ export class DashboardComponent implements OnInit, OnDestroy {
   }
 
   tweet(msg: string) {
-    this.scatterService.tweet(msg,
-      function (transaction) {
-        this.msg = '';
-        console.log(transaction);
-        return;
-      }, function (error) {
-        $("#errorTransfer").modal();
-        console.log(error);
-        return;
-      }
-    );
+    this.scatterService.tweet(msg).then(transaction => {
+      this.msg = '';
+      console.log(transaction);
+    }).catch(error => {
+      $("#errorTransfer").modal();
+      console.log(error);
+    });
   }
 }
