@@ -1,0 +1,67 @@
+<app-page>
+	<div id="page-wrapper">
+		<div class="row">
+			<div class="col-lg-12">
+				<h1 class="page-header">Tweets</h1>
+			</div>
+			<!-- /.col-lg-12 -->
+		</div>
+
+		<div class="row">
+			<div class="col-lg-12">
+				<div class="panel panel-default">
+					<div class="panel-body">
+						<form (submit)="tweet(msg)">
+							<div class="input-group">
+								<input [(ngModel)]="msg" name="msg" required placeholder="Your awesome tweet..." type="text" class="form-control" aria-label="...">
+								<div class="input-group-btn">
+                                    <button class="btn btn-default" type="button">Tweet!</button>
+								</div>
+							</div>
+						</form>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<div class="row">
+			<!-- /.col-lg-12 -->
+			<div class="col-lg-12">
+				<div class="panel panel-default">
+					<div class="panel-heading">
+						Tweets
+					</div>
+					<!-- /.panel-heading -->
+					<div class="panel-body">
+						<app-loading *ngIf="!tweets"></app-loading>
+						<div *ngIf="tweets" class="table-responsive">
+							<table class="table table-striped">
+								<thead>
+								<tr>
+									<th>Account</th>
+									<th>Msg</th>
+									<th>DateTime</th>
+								</tr>
+								</thead>
+								<tbody>
+								<tr *ngFor="let tweet of tweets">
+									<td><a routerLink="/tweets/{{tweet.actor}}">{{tweet.actor}}</a></td>
+									<td>{{tweet.msg}}</td>
+									<td>{{tweet.created_at}}</td>
+								</tr>
+								</tbody>
+							</table>
+						</div>
+						<!-- /.table-responsive -->
+					</div>
+					<!-- /.panel-body -->
+				</div>
+				<!-- /.panel -->
+			</div>
+			<!-- /.col-lg-6 -->
+		</div>
+
+		<!-- /.row -->
+	</div>
+	<!-- /#page-wrapper -->
+</app-page>

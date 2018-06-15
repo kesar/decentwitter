@@ -1,0 +1,19 @@
+<div class="navbar-default sidebar" role="navigation">
+	<div class="sidebar-nav navbar-collapse">
+		<ul class="nav" id="side-menu">
+			<li>
+				<a routerLink="/" routerLinkActive="active"><i class="fa fa-dashboard fa-fw"></i> Dashboard</a>
+			</li>
+			<li *ngIf="isLogged">
+				<a routerLink="/tweets/{{username}}" routerLinkActive="active"><i class="fa fa-exchange fa-fw"></i>Your Tweets</a>
+			</li>
+			<li *ngIf="isLogged">
+				<a routerLink="/login" (click)="logout()" routerLinkActive="active"><i class="fa fa-lock fa-fw"></i> Logout</a>
+			</li>
+			<li *ngIf="!isLogged">
+				<a (click)="login()" routerLinkActive="active"><i class="fa fa-lock fa-fw"></i> Login</a>
+			</li>
+		</ul>
+	</div>
+	<!-- /.sidebar-collapse -->
+</div>
