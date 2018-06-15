@@ -42,9 +42,11 @@ export class TweetsComponent implements OnInit, OnDestroy {
       function (transaction) {
         this.msg = '';
         console.log(transaction);
+        return;
       }, function (error) {
         $("#errorTransfer").modal();
         console.log(error);
+        return;
       }
     );
   }

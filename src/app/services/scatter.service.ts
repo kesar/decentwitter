@@ -12,7 +12,6 @@ export class ScatterService {
   network: any;
 
   load() {
-    console.log(this.identity);
     this.scatter = (<any>window).scatter;
     if (this.identity) {
       this.scatter.useIdentity(this.identity.hash);
@@ -28,7 +27,6 @@ export class ScatterService {
   }
 
   login(successCallback, errorCallbak) {
-    alert('login');
     const requirements = {accounts: [this.network]};
 
     let that = this;
@@ -47,16 +45,16 @@ export class ScatterService {
   }
 
   logout() {
-    alert('logout');
-    //this.scatter.forgetIdentity().then(() => { this.identity = null });
+    this.scatter.forgetIdentity().then(() => { this.identity = null; });
   }
 
   tweet(msg: string, successCallback, errorCallback) {
-    alert(msg);
+    this.load();
     let that = this;
     this.login(function () {
-        that.eos.contract('something here', msg, []).then(transaction => {
+      that.eos.contract('decentwitter', {}).then(contract => contract.tweet(msg)).then(transaction => {
           successCallback(transaction);
+          return;
         }).catch(error => {
           errorCallback(error);
         });
