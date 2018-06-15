@@ -6,7 +6,7 @@
 export const environment = {
   production: false,
   apiUrl: 'https://api.eostracker.io',
-  eosHost: 'api.eosmetal.io',
-  eosPort: 18890,
+  eosHost: 'nodes.get-scatter.com',
+  eosPort: 443,
   eosProtocol: 'https',
 };
