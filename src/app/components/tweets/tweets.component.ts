@@ -14,6 +14,7 @@ import {ScatterService} from '../../services/scatter.service';
 export class TweetsComponent implements OnInit, OnDestroy {
 
   public name: string;
+  public msg: string;
   public tweets = null;
   private subscriber: Subscription;
   page = 0;
