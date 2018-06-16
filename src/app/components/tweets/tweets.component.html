@@ -37,7 +37,7 @@
                 </div>
                 <div class="col-xs-4 col-md-6 text-right message-date">
                   <a [href]="'https://eostracker.io/actions/' + tweet.id" target="_blank">⛓</a>
-                  ⏱ {{tweet.created_at}}
+                  ⏱ {{tweet.created_at  * 1000 | date:'medium'}}
                 </div>
               </div>
               <div class="row message-text">
