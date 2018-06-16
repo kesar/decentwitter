@@ -2,6 +2,16 @@
   <div id="page-wrapper">
     <br>
 
+    <div class="row" *ngIf="!isLogged()">
+      <div class="col-lg-12">
+        <div class="panel-body alert alert-info">
+          <i class="fa fa-info-circle"></i> In order to tweet you must have installed and logged in <a target="_blank" href="https://scatter-eos.com">Scatter</a>
+          or use command line:
+          <code>cleos push action decentwitter tweet '["your tweet"]' -p your_account</code>
+        </div>
+      </div>
+    </div>
+
     <div class="row">
       <div class="col-lg-12">
         <div class="panel panel-default">
