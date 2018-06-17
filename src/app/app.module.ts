@@ -15,6 +15,7 @@ import {JsonPipe} from '@angular/common';
 import {Ng2Webstorage} from 'ngx-webstorage';
 import {ScatterService} from './services/scatter.service';
 import {TweetsComponent} from './components/tweets/tweets.component';
+import {TruncatePipe} from './pipes/truncate.pipe';
 
 const appRoutes: Routes = [
   {path: '', component: DashboardComponent},
@@ -30,6 +31,7 @@ const appRoutes: Routes = [
     SidebarComponent,
     LoadingComponent,
     TweetsComponent,
+    TruncatePipe
   ],
   imports: [
     BrowserModule,
