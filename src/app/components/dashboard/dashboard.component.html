@@ -51,8 +51,7 @@
 									⏱ {{tweet.created_at  * 1000 | date:'medium'}}
 								</div>
 							</div>
-							<div class="row message-text">
-								{{tweet.msg | truncate }}
+							<div class="row message-text" [innerHtml]="tweet.msg | truncate | parse">
 							</div>
 						</div>
 
