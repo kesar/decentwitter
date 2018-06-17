@@ -34,24 +34,31 @@
       <div class="col-lg-12">
         <div class="panel panel-default">
           <div class="panel-heading">
-            👤 {{name}} Timeline
+            👤 {{name}} Timeline <a [href]="'https://eostracker.io/accounts/' + name" target="_blank"><i class="fa fa-link"></i></a>
+
           </div>
           <!-- /.panel-heading -->
           <div class="panel-body">
             <app-loading *ngIf="!tweets"></app-loading>
-            <div *ngFor="let tweet of tweets; let i = index; let odd = odd; let even = even" [ngClass]="{ odd: odd, even: even}" class="messaging center-block">
-              <div class="row">
-                <div class="col-xs-8 col-md-6">
-                  <img [src]="'https://api.adorable.io/avatars/102/' + tweet.actor + '@adorable.png'" class="message-photo">
-                  <h4 class="message-name"><a routerLink="/{{tweet.actor}}">{{tweet.actor}}</a></h4>
+            <ul class="chat">
+              <li class="left clearfix" *ngFor="let tweet of tweets; let i = index; let odd = odd; let even = even" [ngClass]="{ odd: odd, even: even}">
+                <span class="chat-img pull-left">
+                    <img [src]="'https://api.adorable.io/avatars/102/' + tweet.actor + '@adorable.png'" class="img-circle avatar" />
+                </span>
+                <div class="chat-body clearfix">
+                  <div class="header">
+                    <strong class="primary-font"><a routerLink="/{{tweet.actor}}">{{tweet.actor}}</a></strong>
+                    <small class="pull-right text-muted">
+                      <a [href]="'https://eostracker.io/actions/' + tweet.id" target="_blank"><i class="fa fa-link"></i></a>
+                      <i class="fa fa-clock-o fa-fw"></i> {{tweet.created_at  * 1000 | date:'short'}}
+                    </small>
+                  </div>
+                  <p [innerHtml]="tweet.msg | truncate | parse"></p>
                 </div>
-                <div class="col-xs-4 col-md-6 text-right message-date">
-                  <a [href]="'https://eostracker.io/actions/' + tweet.id" target="_blank">⛓</a>
-                  ⏱ {{tweet.created_at  * 1000 | date:'medium'}}
-                </div>
-              </div>
-              <div class="row message-text" [innerHtml]="tweet.msg | parse"></div>
-            </div>
+              </li>
+            </ul>
+
+
             <!-- /.table-responsive -->
           </div>
           <!-- /.panel-body -->
