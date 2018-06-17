@@ -14,6 +14,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
   tweets = null;
   page = 0;
   private alive: boolean;
+  public tweetAdded: boolean = false;
   msg: string;
 
   constructor(private http: HttpClient, private scatterService: ScatterService) {
@@ -41,6 +42,19 @@ export class DashboardComponent implements OnInit, OnDestroy {
     this.scatterService.tweet(msg).then(transaction => {
       this.msg = '';
       console.log(transaction);
+      $("#loadingTransfer").modal();
+      let dialogAlive:boolean = true;
+      TimerObservable.create(0, 2000)
+        .takeWhile(() => dialogAlive)
+        .subscribe(() => {
+          this.http.get(environment.apiUrl + '/transactions/'+transaction.transaction_id).subscribe(data => {
+            if (data) {
+              dialogAlive = false;
+              this.tweetAdded = true;
+            }
+          });
+        });
+
     }).catch(error => {
       $("#errorTransfer").modal();
       console.log(error);

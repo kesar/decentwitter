@@ -20,7 +20,10 @@ export class ScatterService {
       port: environment.eosPort,
       chainId: 'aca376f206b8fc25a6ed44dbdc66547c36c6c33e3a119ffbeaef943642f0e906'
     };
-    this.eos = this.scatter.eos(this.network, Eos, {chainId: this.network.chainId}, environment.eosProtocol);
+    if (this.scatter) {
+      this.eos = this.scatter.eos(this.network, Eos, {chainId: this.network.chainId}, environment.eosProtocol);
+    }
+
   }
 
   login() {
@@ -31,18 +34,20 @@ export class ScatterService {
   logout() {
     this.scatter.forgetIdentity();
   }
+
   isLoggedIn() {
     return this.scatter && !!this.scatter.identity;
   }
+
   accountName() {
-      const account = this.scatter.identity.accounts.find(acc => acc.blockchain === 'eos');
-      return account.name;
+    const account = this.scatter.identity.accounts.find(acc => acc.blockchain === 'eos');
+    return account.name;
   }
 
   tweet(msg: string) {
     this.load();
     const account = this.scatter.identity.accounts.find(acc => acc.blockchain === 'eos');
-    const options = { authorization: [`${account.name}@${account.authority}`] };
+    const options = {authorization: [`${account.name}@${account.authority}`]};
     return this.eos.contract('decentwitter').then(contract => contract.tweet(msg, options));
   }
 }

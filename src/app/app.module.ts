@@ -18,7 +18,7 @@ import {TweetsComponent} from './components/tweets/tweets.component';
 
 const appRoutes: Routes = [
   {path: '', component: DashboardComponent},
-  {path: 'tweets/:id', component: TweetsComponent}
+  {path: ':id', component: TweetsComponent}
 ];
 
 @NgModule({

@@ -44,7 +44,7 @@
 							<div class="row">
 								<div class="col-xs-8 col-md-6">
 									<img [src]="'https://api.adorable.io/avatars/102/' + tweet.actor + '@adorable.png'" class="message-photo">
-									<h4 class="message-name"><a routerLink="/tweets/{{tweet.actor}}">{{tweet.actor}}</a></h4>
+									<h4 class="message-name"><a routerLink="/{{tweet.actor}}">{{tweet.actor}}</a></h4>
 								</div>
 								<div class="col-xs-4 col-md-6 text-right message-date">
 									<a [href]="'https://eostracker.io/actions/' + tweet.id" target="_blank">⛓</a>
@@ -86,16 +86,19 @@
 		</div>
 	</div>
 
-
 	<div class="modal fade" id="loadingTransfer" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
 		<div class="modal-dialog">
 			<div class="modal-content">
 				<div class="modal-header">
 					<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-					<h4 class="modal-title" id="loadingTransferLabel">Inserting Tweet...</h4>
+					<h4 class="modal-title" id="loadingTransferLabel">🚀 Inserting Tweet...</h4>
 				</div>
 				<div class="modal-body">
-					Unable to send tweet.
+					<app-loading *ngIf="!tweetAdded"></app-loading>
+					<div *ngIf="tweetAdded" align="center" style="color: rgba(0,185,12,0.77)">
+						<i class="fa fa-check-circle" style="font-size: 70px;"></i><br />
+						Tweet added!
+					</div>
 				</div>
 				<div class="modal-footer">
 					<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>

@@ -13,6 +13,7 @@ import {ScatterService} from '../../services/scatter.service';
 export class TweetsComponent implements OnInit, OnDestroy {
 
   public name: string;
+  public tweetAdded: boolean = false;
   public msg: string;
   public tweets = null;
   page = 0;
@@ -40,7 +41,20 @@ export class TweetsComponent implements OnInit, OnDestroy {
   tweet(msg: string) {
     this.scatterService.tweet(msg).then(transaction => {
       this.msg = '';
+      $("#loadingTransfer").modal();
       console.log(transaction);
+      let dialogAlive:boolean = true;
+      TimerObservable.create(0, 2000)
+        .takeWhile(() => dialogAlive)
+        .subscribe(() => {
+          this.http.get(environment.apiUrl + '/transactions/'+transaction.transaction_id).subscribe(data => {
+            if (data) {
+              dialogAlive = false;
+              this.tweetAdded = true;
+            }
+          });
+        });
+
     }).catch(error => {
       $("#errorTransfer").modal();
       console.log(error);
