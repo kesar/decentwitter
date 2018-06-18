@@ -6,9 +6,11 @@ class decentwitter : public eosio::contract {
       using contract::contract;
 
       /// @abi action 
-      void tweet( string msg ) {
-         //print( "Hello, ", name{user} );
-      }
+      void tweet( string msg) {}
+      /// @abi action
+      void reply(string id, string msg) {}
+      /// @abi action
+      void setAvatar(string msg) {}
 };
 
-EOSIO_ABI( decentwitter, (tweet) )
+EOSIO_ABI( decentwitter, (tweet)(reply)(setAvatar) )

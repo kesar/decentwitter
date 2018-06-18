@@ -5,14 +5,14 @@
 ### Parameters
 Input parameters:
 
-* `msg` (string to include in the output)
+* `msg` (string to link to avatar)
 
 Implied parameters: 
 
-* `msg` (string to tweet about)
+* `msg` (string to link to avatar)
 
 ### Intent
-INTENT. The intention of the author and the invoker of this contract is to tweet output.
+INTENT. The intention of the author and the invoker of this contract is to set an avatar.
 
 ### Term
 TERM. This Contract expires at the conclusion of code execution.
