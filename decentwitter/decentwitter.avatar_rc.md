@@ -1,6 +1,6 @@
-# CONTRACT FOR decentwitter::setAvatar
+# CONTRACT FOR decentwitter::avatar
 
-## ACTION NAME: setAvatar
+## ACTION NAME: avatar
 
 ### Parameters
 Input parameters:
