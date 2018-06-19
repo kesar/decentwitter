@@ -40,7 +40,11 @@
           <!-- /.panel-heading -->
           <div class="panel-body">
             <app-loading *ngIf="!tweets"></app-loading>
-            <ul class="chat">
+            <ul class="chat" infiniteScroll
+                [infiniteScrollDistance]="2"
+                [infiniteScrollThrottle]="50"
+                (scrolled)="onScroll()"
+            >
               <li class="left clearfix" *ngFor="let tweet of tweets; let i = index; let odd = odd; let even = even" [ngClass]="{ odd: odd, even: even}">
                 <span class="chat-img pull-left">
                     <img [src]="'https://api.adorable.io/avatars/102/' + tweet.actor + '@adorable.png'" class="img-circle avatar" />

@@ -5,6 +5,8 @@ import {environment} from '../../../environments/environment';
 import {TimerObservable} from 'rxjs/observable/TimerObservable';
 import {ScatterService} from '../../services/scatter.service';
 
+import * as _ from 'lodash';
+
 @Component({
   selector: 'app-tweets',
   templateUrl: './tweets.component.html',
@@ -28,26 +30,37 @@ export class TweetsComponent implements OnInit, OnDestroy {
     TimerObservable.create(0, 10000)
       .takeWhile(() => this.alive)
       .subscribe(() => {
-          this.http.get(environment.apiUrl + '/tweets/' + this.name + '?page=' + this.page).subscribe(data => {
-            this.tweets = data;
+          this.http.get(environment.apiUrl + '/tweets/' + this.name + '?page=0').subscribe(data => {
             console.log(data);
+            if (!this.tweets) {
+              this.tweets = [];
+            }
+            let dataArray = Object.keys(data).map(function(dataIndex){
+              let tweet = data[dataIndex];
+              return tweet;
+            });
+
+            this.tweets = _.uniqBy([...this.tweets, ...dataArray], 'id')
+
           });
         }
       );
   }
 
-  isLogged() { return this.scatterService.isLoggedIn(); }
+  isLogged() {
+    return this.scatterService.isLoggedIn();
+  }
 
   tweet(msg: string) {
     this.scatterService.tweet(msg).then(transaction => {
       this.msg = '';
       $("#loadingTransfer").modal();
       console.log(transaction);
-      let dialogAlive:boolean = true;
+      let dialogAlive: boolean = true;
       TimerObservable.create(0, 2000)
         .takeWhile(() => dialogAlive)
         .subscribe(() => {
-          this.http.get(environment.apiUrl + '/transactions/'+transaction.transaction_id).subscribe(data => {
+          this.http.get(environment.apiUrl + '/transactions/' + transaction.transaction_id).subscribe(data => {
             if (data) {
               dialogAlive = false;
               this.tweetAdded = true;
@@ -58,6 +71,18 @@ export class TweetsComponent implements OnInit, OnDestroy {
     }).catch(error => {
       $("#errorTransfer").modal();
       console.log(error);
+    });
+  }
+
+  onScroll() {
+    this.page++;
+    this.http.get(environment.apiUrl + '/tweets/ ' + this.name + '?page=' + this.page).subscribe(data => {
+      let dataArray = Object.keys(data).map(function(dataIndex){
+        let tweet = data[dataIndex];
+        return tweet;
+      });
+
+      this.tweets = _.uniqBy([...this.tweets, ...dataArray], 'id')
     });
   }
 

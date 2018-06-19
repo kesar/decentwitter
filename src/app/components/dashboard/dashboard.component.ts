@@ -4,6 +4,7 @@ import {TimerObservable} from 'rxjs/observable/TimerObservable';
 import 'rxjs/add/operator/takeWhile';
 import {environment} from '../../../environments/environment';
 import {ScatterService} from '../../services/scatter.service';
+import * as _ from 'lodash';
 
 @Component({
   selector: 'app-dashboard',
@@ -25,9 +26,17 @@ export class DashboardComponent implements OnInit, OnDestroy {
     TimerObservable.create(0, 10000)
       .takeWhile(() => this.alive)
       .subscribe(() => {
-        this.http.get(environment.apiUrl + '/tweets?page=' + this.page).subscribe(data => {
-          this.tweets = data;
-          // console.log(data);
+        this.http.get(environment.apiUrl + '/tweets?page=0').subscribe(data => {
+          console.log(data);
+          if (!this.tweets) {
+            this.tweets = [];
+          }
+
+          let dataArray = Object.keys(data).map(function(dataIndex){
+            let tweet = data[dataIndex];
+            return tweet;
+          });
+          this.tweets = _.uniqBy([...this.tweets, ...dataArray], 'id')
         });
       });
   }
@@ -36,18 +45,20 @@ export class DashboardComponent implements OnInit, OnDestroy {
     this.alive = false;
   }
 
-  isLogged() { return this.scatterService.isLoggedIn(); }
+  isLogged() {
+    return this.scatterService.isLoggedIn();
+  }
 
   tweet(msg: string) {
     this.scatterService.tweet(msg).then(transaction => {
       this.msg = '';
       console.log(transaction);
       $("#loadingTransfer").modal();
-      let dialogAlive:boolean = true;
+      let dialogAlive: boolean = true;
       TimerObservable.create(0, 2000)
         .takeWhile(() => dialogAlive)
         .subscribe(() => {
-          this.http.get(environment.apiUrl + '/transactions/'+transaction.transaction_id).subscribe(data => {
+          this.http.get(environment.apiUrl + '/transactions/' + transaction.transaction_id).subscribe(data => {
             if (data) {
               dialogAlive = false;
               this.tweetAdded = true;
@@ -58,6 +69,18 @@ export class DashboardComponent implements OnInit, OnDestroy {
     }).catch(error => {
       $("#errorTransfer").modal();
       console.log(error);
+    });
+  }
+
+  onScroll() {
+    this.page++;
+    this.http.get(environment.apiUrl + '/tweets?page=' + this.page).subscribe(data => {
+      let dataArray = Object.keys(data).map(function(dataIndex){
+        let tweet = data[dataIndex];
+        return tweet;
+      });
+
+      this.tweets = _.uniqBy([...this.tweets, ...dataArray], 'id')
     });
   }
 }

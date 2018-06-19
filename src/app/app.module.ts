@@ -17,6 +17,7 @@ import {ScatterService} from './services/scatter.service';
 import {TweetsComponent} from './components/tweets/tweets.component';
 import {TruncatePipe} from './pipes/truncate.pipe';
 import {ParsePipe} from './pipes/parse.pipe';
+import {InfiniteScrollModule} from 'ngx-infinite-scroll';
 
 const appRoutes: Routes = [
   {path: '', component: DashboardComponent},
@@ -33,7 +34,7 @@ const appRoutes: Routes = [
     LoadingComponent,
     TweetsComponent,
     TruncatePipe,
-    ParsePipe,
+    ParsePipe
   ],
   imports: [
     BrowserModule,
@@ -41,6 +42,7 @@ const appRoutes: Routes = [
     HttpClientModule,
     PrettyJsonModule,
     Ng2Webstorage,
+    InfiniteScrollModule,
     RouterModule.forRoot(appRoutes)
   ],
   providers: [
