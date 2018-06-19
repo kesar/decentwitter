@@ -35,12 +35,7 @@ export class TweetsComponent implements OnInit, OnDestroy {
             if (!this.tweets) {
               this.tweets = [];
             }
-            let dataArray = Object.keys(data).map(function(dataIndex){
-              let tweet = data[dataIndex];
-              return tweet;
-            });
-
-            this.tweets = _.uniqBy([...this.tweets, ...dataArray], 'id')
+            this.tweets = _.orderBy(_.uniqBy(_.concat(this.tweets, data), 'id'), ['created_at'], ['desc']);
 
           });
         }
@@ -76,13 +71,8 @@ export class TweetsComponent implements OnInit, OnDestroy {
 
   onScroll() {
     this.page++;
-    this.http.get(environment.apiUrl + '/tweets/ ' + this.name + '?page=' + this.page).subscribe(data => {
-      let dataArray = Object.keys(data).map(function(dataIndex){
-        let tweet = data[dataIndex];
-        return tweet;
-      });
-
-      this.tweets = _.uniqBy([...this.tweets, ...dataArray], 'id')
+    this.http.get(environment.apiUrl + '/tweets/' + this.name + '?page=' + this.page).subscribe(data => {
+      this.tweets = _.orderBy(_.uniqBy(_.concat(this.tweets, data), 'id'), ['created_at'], ['desc']);
     });
   }
 

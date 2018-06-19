@@ -27,16 +27,10 @@ export class DashboardComponent implements OnInit, OnDestroy {
       .takeWhile(() => this.alive)
       .subscribe(() => {
         this.http.get(environment.apiUrl + '/tweets?page=0').subscribe(data => {
-          console.log(data);
           if (!this.tweets) {
             this.tweets = [];
           }
-
-          let dataArray = Object.keys(data).map(function(dataIndex){
-            let tweet = data[dataIndex];
-            return tweet;
-          });
-          this.tweets = _.uniqBy([...this.tweets, ...dataArray], 'id')
+          this.tweets = _.orderBy(_.uniqBy(_.concat(this.tweets, data), 'id'), ['created_at'], ['desc']);
         });
       });
   }
@@ -75,12 +69,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
   onScroll() {
     this.page++;
     this.http.get(environment.apiUrl + '/tweets?page=' + this.page).subscribe(data => {
-      let dataArray = Object.keys(data).map(function(dataIndex){
-        let tweet = data[dataIndex];
-        return tweet;
-      });
-
-      this.tweets = _.uniqBy([...this.tweets, ...dataArray], 'id')
+      this.tweets = _.orderBy(_.uniqBy(_.concat(this.tweets, data), 'id'), ['created_at'], ['desc']);
     });
   }
 }
