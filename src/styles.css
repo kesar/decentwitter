@@ -301,9 +301,11 @@ table.dataTable thead .sorting:after {
 }
 
 .chat .chat-body p {
-    margin-top: 5px !important;
+    margin-top: 15px !important;
     margin-left: 5px !important;
     text-overflow: ellipsis;
     white-space: pre-line;
     word-wrap: break-word;
+    max-height: 300px;
+    overflow: hidden;
 }
