@@ -57,7 +57,7 @@
                       <i class="fa fa-clock-o fa-fw"></i> {{tweet.created_at  * 1000 | date:'short'}}
                     </small>
                   </div>
-                  <p [innerHtml]="tweet.msg | parse"></p>
+                  <p>{{tweet.msg | truncate | parse}}</p>
                 </div>
               </li>
             </ul>
