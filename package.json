@@ -27,7 +27,7 @@
     "angular2-counto": "^1.2.3",
     "angular2-prettyjson": "^2.0.6",
     "core-js": "^2.4.1",
-    "eosjs": "^14.1.1",
+    "eosjs": "^15.0.1",
     "express": "^4.16.3",
     "lodash": "^4.17.10",
     "ngx-infinite-scroll": "^0.8.4",
