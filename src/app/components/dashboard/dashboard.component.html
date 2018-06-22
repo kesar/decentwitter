@@ -18,9 +18,9 @@
 					<div class="panel-body">
 						<form (submit)="tweet(msg)">
 							<div class="input-group">
-								<input [(ngModel)]="msg" name="msg" [disabled]="!isLogged()" required placeholder="Your awesome tweet..." type="text" class="form-control" aria-label="...">
+								<input [(ngModel)]="msg" name="msg" [disabled]="!isLogged() || sending" required placeholder="Your awesome tweet..." type="text" class="form-control" aria-label="...">
 								<div class="input-group-btn">
-                                    <button class="btn btn-default" type="submit" [disabled]="!isLogged()">Tweet!</button>
+                                    <button class="btn btn-default" type="submit" [disabled]="!isLogged() || sending">Tweet!</button>
 								</div>
 							</div>
 						</form>

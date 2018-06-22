@@ -18,9 +18,9 @@
           <div class="panel-body">
             <form (submit)="tweet(msg)">
               <div class="input-group">
-                <input [(ngModel)]="msg" [disabled]="!isLogged()" name="msg" required placeholder="Your awesome tweet..." type="text" class="form-control" aria-label="...">
+                <input [(ngModel)]="msg" [disabled]="!isLogged() || sending" name="msg" required placeholder="Your awesome tweet..." type="text" class="form-control" aria-label="...">
                 <div class="input-group-btn">
-                  <button class="btn btn-default" type="submit" [disabled]="!isLogged()">Tweet!</button>
+                  <button class="btn btn-default" type="submit" [disabled]="!isLogged() || sending">Tweet!</button>
                 </div>
               </div>
             </form>
@@ -45,7 +45,7 @@
               <br />
               <div><b>{{name}}</b></div>
               <br />
-              <div *ngIf="isOwnerAccount()"><button disabled>Change Avatar (in progress)</button></div>
+              <div *ngIf="isOwnerAccount()"><button (click)="openDialogAvatar()">Change Avatar</button></div>
             </div>
           </div>
         </div>
@@ -132,6 +132,37 @@
           <div *ngIf="tweetAdded" align="center" style="color: rgba(0,185,12,0.77)">
             <i class="fa fa-check-circle" style="font-size: 70px;"></i><br />
             Tweet added!
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal fade" id="loadingAvatarUrl" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+          <h4 class="modal-title" id="loadingAvatarUrlLabel">🚀 Upload Avatar...</h4>
+        </div>
+        <div class="modal-body" *ngIf="!avatarUploading">
+          <form (submit)="uploadAvatar(avatarUrl)">
+            <div class="input-group">
+              <input [(ngModel)]="avatarUrl" [disabled]="sending" name="avatarUrl" required placeholder="Your avatar URL..." type="text" class="form-control" aria-label="...">
+              <div class="input-group-btn">
+                <button class="btn btn-default" type="submit" [disabled]="sending">Upload</button>
+              </div>
+            </div>
+          </form>
+        </div>
+        <div class="modal-body" *ngIf="avatarUploading">
+          <app-loading *ngIf="!avatarUploaded"></app-loading>
+          <div *ngIf="avatarUploaded" align="center" style="color: rgba(0,185,12,0.77)">
+            <i class="fa fa-check-circle" style="font-size: 70px;"></i><br />
+            Avatar uploaded!
           </div>
         </div>
         <div class="modal-footer">

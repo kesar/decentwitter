@@ -20,6 +20,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
   stats = null;
   public tweetAdded: boolean = false;
   msg: string;
+  sending: boolean = false;
 
   constructor(private http: HttpClient, private scatterService: ScatterService) {
     this.alive = true;
@@ -87,10 +88,12 @@ export class DashboardComponent implements OnInit, OnDestroy {
   }
 
   tweet(msg: string) {
+    this.sending = true;
     this.scatterService.tweet(msg).then(transaction => {
       this.msg = '';
       console.log(transaction);
       $("#loadingTransfer").modal();
+      this.sending = false;
       let dialogAlive: boolean = true;
       TimerObservable.create(0, 2000)
         .takeWhile(() => dialogAlive)
@@ -104,6 +107,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
         });
 
     }).catch(error => {
+      this.sending = false;
       $("#errorTransfer").modal();
       console.log(error);
     });

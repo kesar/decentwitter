@@ -18,9 +18,14 @@ export class TweetsComponent implements OnInit, OnDestroy {
   public tweetAdded: boolean = false;
   public msg: string;
   public tweets = null;
-  page = 0;
-  stats = null;
+  public page = 0;
+  public stats = null;
   private alive: boolean;
+  public sending = false;
+
+  public avatarUrl = null;
+  public avatarUploading = false;
+  public avatarUploaded = false;
 
   constructor(private route: ActivatedRoute, private http: HttpClient, private scatterService: ScatterService) {
     this.alive = true;
@@ -91,10 +96,16 @@ export class TweetsComponent implements OnInit, OnDestroy {
     return this.scatterService.isLoggedIn();
   }
 
+  openDialogAvatar() {
+    $("#loadingAvatarUrl").modal();
+  }
+
   tweet(msg: string) {
+    this.sending = true;
     this.scatterService.tweet(msg).then(transaction => {
       this.msg = '';
       $("#loadingTransfer").modal();
+      this.sending = false;
       console.log(transaction);
       let dialogAlive: boolean = true;
       TimerObservable.create(0, 2000)
@@ -109,6 +120,33 @@ export class TweetsComponent implements OnInit, OnDestroy {
         });
 
     }).catch(error => {
+      this.sending = false;
+      $("#errorTransfer").modal();
+      console.log(error);
+    });
+  }
+
+  uploadAvatar(url: string) {
+    this.sending = true;
+    this.avatarUploading = true;
+    this.scatterService.avatar(url).then(transaction => {
+      this.avatarUrl = '';
+      this.sending = false;
+      console.log(transaction);
+      let dialogAlive: boolean = true;
+      TimerObservable.create(0, 2000)
+        .takeWhile(() => dialogAlive)
+        .subscribe(() => {
+          this.http.get(environment.apiUrl + '/transactions/' + transaction.transaction_id).subscribe(data => {
+            if (data) {
+              dialogAlive = false;
+              this.avatarUploaded = true;
+            }
+          });
+        });
+
+    }).catch(error => {
+      this.sending = false;
       $("#errorTransfer").modal();
       console.log(error);
     });

@@ -53,4 +53,11 @@ export class ScatterService {
     const options = {authorization: [`${account.name}@${account.authority}`]};
     return this.eos.contract('decentwitter').then(contract => contract.tweet(msg, options));
   }
+
+  avatar(url: string) {
+    this.load();
+    const account = this.scatter.identity.accounts.find(acc => acc.blockchain === 'eos');
+    const options = {authorization: [`${account.name}@${account.authority}`]};
+    return this.eos.contract('decentwitter').then(contract => contract.avatar(url, options));
+  }
 }
