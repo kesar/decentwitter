@@ -42,6 +42,11 @@ export class TweetsComponent implements OnInit, OnDestroy {
       );
   }
 
+  isOwnerAccount() {
+    return (this.scatterService.accountName() &&  this.scatterService.accountName() == this.name);
+  }
+
+
   isLogged() {
     return this.scatterService.isLoggedIn();
   }
