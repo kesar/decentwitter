@@ -31,7 +31,7 @@
 
 		<div class="row">
 			<!-- /.col-lg-12 -->
-			<div class="col-lg-12">
+			<div class="col-lg-8">
 				<div class="panel panel-default">
 					<div class="panel-heading">
 						📜 Latest Tweets
@@ -67,7 +67,21 @@
 				</div>
 				<!-- /.panel -->
 			</div>
-			<!-- /.col-lg-6 -->
+
+			<div class="col-lg-4">
+				<div class="panel panel-default">
+					<div class="panel-heading">
+						📊 <b>Stats</b>
+					</div>
+					<!-- /.panel-heading -->
+					<div class="panel-body">
+						<app-loading *ngIf="!stats"></app-loading>
+						<div class="flot-chart" align="center">
+							<div class="flot-chart-content" id="flot-pie-chart"></div>
+						</div>
+					</div>
+				</div>
+			</div>
 		</div>
 
 		<!-- /.row -->

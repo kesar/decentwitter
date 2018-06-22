@@ -11,10 +11,13 @@ import * as _ from 'lodash';
   templateUrl: './dashboard.component.html',
   styleUrls: ['./dashboard.component.css']
 })
+
+
 export class DashboardComponent implements OnInit, OnDestroy {
   tweets = null;
   page = 0;
   private alive: boolean;
+  stats = null;
   public tweetAdded: boolean = false;
   msg: string;
 
@@ -33,6 +36,46 @@ export class DashboardComponent implements OnInit, OnDestroy {
           this.tweets = _.orderBy(_.uniqBy(_.concat(this.tweets, data), 'id'), ['created_at'], ['desc']);
         });
       });
+
+    this.http.get(environment.apiUrl + '/tweets/stats').subscribe(data => {
+      this.stats = data;
+      let d = [];
+      let maxAmount = 0;
+
+      for (let i = 0; i < this.stats.length; i++) {
+        let dataPoint = [];
+        dataPoint.push( (new Date(this.stats[i].theday)).getTime());
+        let amount = parseInt(this.stats[i].amount);
+        dataPoint.push(amount);
+        if (amount > maxAmount) {
+          maxAmount = amount;
+        }
+        d.push(dataPoint);
+      }
+
+      maxAmount = maxAmount + 50;
+
+      $.plot("#flot-pie-chart", [d],{
+        series: {
+          lines: {
+            show: true
+          },
+          points: {
+            show: true
+          }
+        },
+        xaxis: {
+          mode: 'time',
+          timeformat: '%b %d',
+          tickSize: [1, 'day']
+        },
+        yaxis: {
+          min: 0,
+          max: maxAmount
+        }
+      });
+
+    });
   }
 
   ngOnDestroy() {

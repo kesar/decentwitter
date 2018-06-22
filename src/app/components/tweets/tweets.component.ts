@@ -19,6 +19,7 @@ export class TweetsComponent implements OnInit, OnDestroy {
   public msg: string;
   public tweets = null;
   page = 0;
+  stats = null;
   private alive: boolean;
 
   constructor(private route: ActivatedRoute, private http: HttpClient, private scatterService: ScatterService) {
@@ -40,10 +41,49 @@ export class TweetsComponent implements OnInit, OnDestroy {
           });
         }
       );
+
+    this.http.get(environment.apiUrl + '/tweets/' + this.name + '/stats').subscribe(data => {
+      this.stats = data;
+      let d = [];
+      let maxAmount = 0;
+
+      for (let i = 0; i < this.stats.length; i++) {
+        let dataPoint = [];
+        dataPoint.push( (new Date(this.stats[i].theday)).getTime());
+        let amount = parseInt(this.stats[i].amount);
+        dataPoint.push(amount);
+        if (amount > maxAmount) {
+          maxAmount = amount;
+        }
+        d.push(dataPoint);
+      }
+
+      maxAmount = maxAmount + 10;
+
+      $.plot("#flot-pie-chart", [d],{
+        series: {
+          lines: {
+            show: true
+          },
+          points: {
+            show: true
+          }
+        },
+        xaxis: {
+          mode: 'time',
+          timeformat: '%b %d',
+          tickSize: [1, 'day']
+        },
+        yaxis: {
+          min: 0,
+          max: maxAmount
+        }
+      });
+    });
   }
 
   isOwnerAccount() {
-    return (this.scatterService.accountName() &&  this.scatterService.accountName() == this.name);
+    return (this.scatterService.accountName() && this.scatterService.accountName() == this.name);
   }
 
 

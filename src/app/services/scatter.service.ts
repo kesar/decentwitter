@@ -40,6 +40,9 @@ export class ScatterService {
   }
 
   accountName() {
+    if (!this.scatter || !this.scatter.identity) {
+      return;
+    }
     const account = this.scatter.identity.accounts.find(acc => acc.blockchain === 'eos');
     return account.name;
   }

@@ -30,6 +30,40 @@
     </div>
 
     <div class="row">
+
+      <div class="col-lg-4">
+        <div class="panel panel-default">
+          <div class="panel-heading">
+            🗄 <b>Profile</b>
+          </div>
+          <!-- /.panel-heading -->
+          <div class="panel-body">
+            <app-loading *ngIf="!name"></app-loading>
+            <div align="center" *ngIf="name">
+              <img [src]="'//api.eostracker.io/tweets/'+ name +'/avatar.png'" class="img-circle avatar" />
+              <br />
+              <br />
+              <div><b>{{name}}</b></div>
+              <br />
+              <div *ngIf="isOwnerAccount()"><button disabled>Change Avatar (in progress)</button></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="panel panel-default">
+          <div class="panel-heading">
+            📊 <b>Stats</b>
+          </div>
+          <!-- /.panel-heading -->
+          <div class="panel-body">
+            <app-loading *ngIf="!stats"></app-loading>
+            <div class="flot-chart" align="center">
+              <div class="flot-chart-content" id="flot-pie-chart"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
       <div class="col-lg-8">
         <div class="panel panel-default">
           <div class="panel-heading">
@@ -60,39 +94,6 @@
                 </div>
               </li>
             </ul>
-          </div>
-        </div>
-      </div>
-
-      <div class="col-lg-4">
-        <div class="panel panel-default">
-          <div class="panel-heading">
-            🗄 <b>Profile</b>
-          </div>
-          <!-- /.panel-heading -->
-          <div class="panel-body">
-            <app-loading *ngIf="!name"></app-loading>
-            <div align="center" *ngIf="name">
-              <img [src]="'//api.eostracker.io/tweets/'+ name +'/avatar.png'" class="img-circle avatar" />
-              <br />
-              <br />
-              <div><b>{{name}}</b></div>
-              <br />
-              <div *ngIf="isOwnerAccount()"><button disabled>Change Avatar (in progress)</button></div>
-            </div>
-          </div>
-        </div>
-
-        <div class="panel panel-default">
-          <div class="panel-heading">
-            📊 <b>Stats</b>
-          </div>
-          <!-- /.panel-heading -->
-          <div class="panel-body">
-            <app-loading *ngIf="!name"></app-loading>
-            <div align="center" *ngIf="name">
-              stats... (in progress)
-            </div>
           </div>
         </div>
       </div>
