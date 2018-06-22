@@ -47,7 +47,7 @@
 						>
 							<li class="left clearfix" *ngFor="let tweet of tweets; let i = index; let odd = odd; let even = even" [ngClass]="{ odd: odd, even: even}">
                                     <span class="chat-img pull-left">
-                                        <img [src]="'https://api.adorable.io/avatars/102/' + tweet.actor + '@adorable.png'" class="img-circle avatar" />
+                                        <img [src]="'//api.eostracker.io/tweets/'+ tweet.actor +'/avatar.png'" class="img-circle avatar" />
                                     </span>
 								<div class="chat-body clearfix">
 									<div class="header">
