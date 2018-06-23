@@ -10,12 +10,13 @@ export class ParsePipe implements PipeTransform {
   }
 
   transform(value: string): SafeHtml {
-    return this.urlifyHashtags(value);
+    return this.parse(value);
   }
 
-  urlifyHashtags(_text): string {
-    let userRegex = /^@([a-zA-Z0-9\.]+)/g;
-    //return _text.replace(userRegex, '<a href="/$1" routerLinkActive="active-link">@$1</a>');
+  parse(_text): string {
+    _text = _text.replace(/<.*?>/g, '');
+    _text = _text.replace(/(\b(https?):\/\/([-A-Z0-9+&@#%?=~_|!:,.;]*)([-A-Z0-9+&@#%?\/=~_|!:,.;]*)[-A-Z0-9+&@#\/%=~_|])/ig, '<a href="$1" target="_blank">$1</a>'); // url
+    _text = _text.replace(/(^|[\s\.,])@([a-zA-Z0-9\.]+)/g, ' <a href="/$2">@$2</a>'); // users
     return _text;
   }
 }
