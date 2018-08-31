@@ -62,7 +62,7 @@
 									<div class="header">
 										<strong class="primary-font"><a routerLink="/{{tweet.actor}}">{{tweet.actor}}</a></strong>
 										<small class="pull-right text-muted">
-											<a [href]="'https://eostracker.io/search?q=' + tweet.transaction_id" target="_blank"><i class="fa fa-link"></i></a>
+											<a [href]="'https://eosflare.io/tx/' + tweet.transaction_id" target="_blank"><i class="fa fa-link"></i></a>
 											<i class="fa fa-clock-o fa-fw"></i> {{tweet.created_at  * 1000 | date:'short'}}
 										</small>
 									</div>
