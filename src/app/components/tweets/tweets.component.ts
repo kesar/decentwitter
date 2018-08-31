@@ -137,12 +137,14 @@ export class TweetsComponent implements OnInit, OnDestroy {
       TimerObservable.create(0, 2000)
         .takeWhile(() => dialogAlive)
         .subscribe(() => {
-          this.http.get(environment.apiUrl + '/transactions/' + transaction.transaction_id).subscribe(data => {
-            if (data) {
-              dialogAlive = false;
-              this.avatarUploaded = true;
+          this.scatterService.txExist(transaction.transaction_id).then(
+            success => {
+              if (success) {
+                dialogAlive = false;
+                this.tweetAdded = true;
+              }
             }
-          });
+          );
         });
 
     }).catch(error => {

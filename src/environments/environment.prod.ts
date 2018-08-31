@@ -1,7 +1,7 @@
 export const environment = {
   production: true,
   apiUrl: 'https://api.eostracker.io',
-  eosHost: 'nodes.get-scatter.com',
+  eosHost: 'eos.greymass.com',
   eosPort: 443,
   eosProtocol: 'https',
 };
