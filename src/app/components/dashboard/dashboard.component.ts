@@ -21,6 +21,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
   public tweetAdded: boolean = false;
   msg: string;
   sending: boolean = false;
+  replyId = null;
 
   constructor(private http: HttpClient, private scatterService: ScatterService) {
     this.alive = true;
@@ -111,6 +112,40 @@ export class DashboardComponent implements OnInit, OnDestroy {
       $("#errorTransfer").modal();
       console.log(error);
     });
+  }
+
+  reply(id: string, msg: string) {
+    this.sending = true;
+    this.scatterService.reply(msg, id).then(transaction => {
+      this.msg = '';
+      console.log(transaction);
+      $("#loadingTransfer").modal();
+      this.sending = false;
+      let dialogAlive: boolean = true;
+      TimerObservable.create(0, 2000)
+        .takeWhile(() => dialogAlive)
+        .subscribe(() => {
+          this.http.get(environment.apiUrl + '/transactions/' + transaction.transaction_id).subscribe(data => {
+            if (data) {
+              dialogAlive = false;
+              this.tweetAdded = true;
+            }
+          });
+        });
+
+    }).catch(error => {
+      this.sending = false;
+      $("#errorTransfer").modal();
+      console.log(error);
+    });
+  }
+
+  setReply(transactionId: string, seq: string) {
+      this.replyId = transactionId+seq;
+  }
+
+  like(transactionId: string, seq: string) {
+    alert('Sorry, not yet implemented ;)');
   }
 
   onScroll() {

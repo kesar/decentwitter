@@ -16,11 +16,20 @@
 			<div class="col-lg-12">
 				<div class="panel panel-default">
 					<div class="panel-body">
-						<form (submit)="tweet(msg)">
+						<form (submit)="tweet(msg)" *ngIf="!replyId">
 							<div class="input-group">
 								<input [(ngModel)]="msg" name="msg" [disabled]="!isLogged() || sending" required placeholder="Your awesome tweet..." type="text" class="form-control" aria-label="...">
 								<div class="input-group-btn">
                                     <button class="btn btn-default" type="submit" [disabled]="!isLogged() || sending">Tweet!</button>
+								</div>
+							</div>
+						</form>
+						<div *ngIf="replyId" style="text-align: right; margin-bottom: 10px;"><a href="#" (click)="this.replyId = null;"><i class="fa fa-remove"></i> Close Reply</a></div>
+						<form (submit)="reply(replyId, msg)" *ngIf="replyId">
+							<div class="input-group">
+								<input [(ngModel)]="msg" name="msg" [disabled]="!isLogged() || sending" required placeholder="Your awesome reply..." type="text" class="form-control" aria-label="...">
+								<div class="input-group-btn">
+									<button class="btn btn-default" type="submit" [disabled]="!isLogged() || sending">Reply!</button>
 								</div>
 							</div>
 						</form>
@@ -53,11 +62,15 @@
 									<div class="header">
 										<strong class="primary-font"><a routerLink="/{{tweet.actor}}">{{tweet.actor}}</a></strong>
 										<small class="pull-right text-muted">
-											<a [href]="'https://eostracker.io/actions/' + tweet.id" target="_blank"><i class="fa fa-link"></i></a>
+											<a [href]="'https://eostracker.io/search?q=' + tweet.transaction_id" target="_blank"><i class="fa fa-link"></i></a>
 											<i class="fa fa-clock-o fa-fw"></i> {{tweet.created_at  * 1000 | date:'short'}}
 										</small>
 									</div>
 									<p [innerHTML]="tweet.msg | truncate | parse"></p>
+									<div class="tweet-actions">
+										<a href="#" (click)="setReply(tweet.transaction_id, tweet.seq)"><i class="fa fa-reply"></i> Reply</a>
+										<a style="margin-left: 25px;" href="#" (click)="like(tweet.transaction_id, tweet.seq)"><i class="fa fa-thumbs-up"></i> Like</a>
+									</div>
 								</div>
 							</li>
 						</ul>

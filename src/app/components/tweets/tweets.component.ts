@@ -21,6 +21,9 @@ export class TweetsComponent implements OnInit, OnDestroy {
   public page = 0;
   public stats = null;
   private alive: boolean;
+
+  public msg: string;
+
   public sending = false;
 
   public avatarUrl = null;
