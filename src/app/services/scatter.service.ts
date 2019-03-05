@@ -14,8 +14,8 @@ export class ScatterService {
   chain: any;
 
   constructor() {
-    //this.chain = window.location.hostname.startsWith('telos') ? telos: eos;
-    this.chain = telos;
+    this.chain = window.location.hostname.startsWith('telos') ? telos: eos;
+    // this.chain = telos;
     this.network =  {
       blockchain: this.chain.blockchain,
       protocol: this.chain.eosProtocol,

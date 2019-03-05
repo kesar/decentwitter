@@ -6,8 +6,8 @@ import {eos, telos} from '../../config';
 export class ApiService {
   chain: any;
   constructor(private http: HttpClient) {
-    //this.chain = window.location.hostname.startsWith('telos') ? telos: eos;
-    this.chain = telos;
+    this.chain = window.location.hostname.startsWith('telos') ? telos: eos;
+    // this.chain = telos;
   }
 
   get (url: string) {
