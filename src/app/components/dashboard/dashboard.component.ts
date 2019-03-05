@@ -1,10 +1,9 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
-import {HttpClient} from '@angular/common/http';
 import {TimerObservable} from 'rxjs/observable/TimerObservable';
 import 'rxjs/add/operator/takeWhile';
-import {environment} from '../../../environments/environment';
 import {ScatterService} from '../../services/scatter.service';
 import * as _ from 'lodash';
+import {ApiService} from '../../services/api.service';
 
 @Component({
   selector: 'app-dashboard',
@@ -23,7 +22,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
   sending: boolean = false;
   replyId = null;
 
-  constructor(private http: HttpClient, private scatterService: ScatterService) {
+  constructor(private api: ApiService, private scatterService: ScatterService) {
     this.alive = true;
   }
 
@@ -31,7 +30,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
     TimerObservable.create(0, 10000)
       .takeWhile(() => this.alive)
       .subscribe(() => {
-        this.http.get(environment.apiUrl + '/tweets?page=0').subscribe(data => {
+        this.api.get('/tweets?page=0').subscribe(data => {
           if (!this.tweets) {
             this.tweets = [];
           }
@@ -39,7 +38,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
         });
       });
 
-    this.http.get(environment.apiUrl + '/tweets/stats').subscribe(data => {
+    this.api.get('/tweets/stats').subscribe(data => {
       this.stats = data;
       let d = [];
       let maxAmount = 0;
@@ -155,7 +154,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
 
   onScroll() {
     this.page++;
-    this.http.get(environment.apiUrl + '/tweets?page=' + this.page).subscribe(data => {
+    this.api.get('/tweets?page=' + this.page).subscribe(data => {
       this.tweets = _.orderBy(_.uniqBy(_.concat(this.tweets, data), 'id'), ['created_at'], ['desc']);
     });
   }

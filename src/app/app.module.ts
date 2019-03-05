@@ -18,6 +18,7 @@ import {TweetsComponent} from './components/tweets/tweets.component';
 import {TruncatePipe} from './pipes/truncate.pipe';
 import {ParsePipe} from './pipes/parse.pipe';
 import {InfiniteScrollModule} from 'ngx-infinite-scroll';
+import {ApiService} from './services/api.service';
 
 const appRoutes: Routes = [
   {path: '', component: DashboardComponent},
@@ -47,6 +48,7 @@ const appRoutes: Routes = [
   ],
   providers: [
     ScatterService,
+    ApiService,
     {provide: JsonPipe, useClass: SafeJsonPipe}
   ],
   bootstrap: [AppComponent]

@@ -65,10 +65,6 @@
 										</small>
 									</div>
 									<p [innerHTML]="tweet.msg | truncate | parse"></p>
-									<div class="tweet-actions">
-										<a href="#" (click)="setReply(tweet.transaction_id, tweet.seq)"><i class="fa fa-reply"></i> Reply</a>
-										<a style="margin-left: 25px;" href="#" (click)="like(tweet.transaction_id, tweet.seq)"><i class="fa fa-thumbs-up"></i> Like</a>
-									</div>
 								</div>
 							</li>
 						</ul>

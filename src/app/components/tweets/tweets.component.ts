@@ -1,11 +1,10 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
 import {ActivatedRoute} from '@angular/router';
-import {HttpClient} from '@angular/common/http';
-import {environment} from '../../../environments/environment';
 import {TimerObservable} from 'rxjs/observable/TimerObservable';
 import {ScatterService} from '../../services/scatter.service';
 
 import * as _ from 'lodash';
+import {ApiService} from '../../services/api.service';
 
 @Component({
   selector: 'app-tweets',
@@ -27,7 +26,7 @@ export class TweetsComponent implements OnInit, OnDestroy {
   public avatarUploading = false;
   public avatarUploaded = false;
 
-  constructor(private route: ActivatedRoute, private http: HttpClient, private scatterService: ScatterService) {
+  constructor(private route: ActivatedRoute, private api: ApiService, private scatterService: ScatterService) {
     this.alive = true;
   }
 
@@ -36,7 +35,7 @@ export class TweetsComponent implements OnInit, OnDestroy {
     TimerObservable.create(0, 10000)
       .takeWhile(() => this.alive)
       .subscribe(() => {
-          this.http.get(environment.apiUrl + '/tweets/' + this.name + '?page=0').subscribe(data => {
+          this.api.get('/tweets/' + this.name + '?page=0').subscribe(data => {
             console.log(data);
             if (!this.tweets) {
               this.tweets = [];
@@ -47,7 +46,7 @@ export class TweetsComponent implements OnInit, OnDestroy {
         }
       );
 
-    this.http.get(environment.apiUrl + '/tweets/' + this.name + '/stats').subscribe(data => {
+    this.api.get('/tweets/' + this.name + '/stats').subscribe(data => {
       this.stats = data;
       let d = [];
       let maxAmount = 0;
@@ -158,7 +157,7 @@ export class TweetsComponent implements OnInit, OnDestroy {
 
   onScroll() {
     this.page++;
-    this.http.get(environment.apiUrl + '/tweets/' + this.name + '?page=' + this.page).subscribe(data => {
+    this.api.get('/tweets/' + this.name + '?page=' + this.page).subscribe(data => {
       this.tweets = _.orderBy(_.uniqBy(_.concat(this.tweets, data), 'id'), ['created_at'], ['desc']);
     });
   }
