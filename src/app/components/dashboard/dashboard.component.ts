@@ -4,6 +4,7 @@ import 'rxjs/add/operator/takeWhile';
 import {ScatterService} from '../../services/scatter.service';
 import * as _ from 'lodash';
 import {ApiService} from '../../services/api.service';
+import {eos, telos} from '../../../config';
 
 @Component({
   selector: 'app-dashboard',
@@ -21,9 +22,11 @@ export class DashboardComponent implements OnInit, OnDestroy {
   msg: string;
   sending: boolean = false;
   replyId = null;
+  chain: any;
 
   constructor(private api: ApiService, private scatterService: ScatterService) {
     this.alive = true;
+    this.chain = window.location.hostname.startsWith('telos') ? telos: eos;
   }
 
   ngOnInit() {

@@ -5,6 +5,7 @@ import {ScatterService} from '../../services/scatter.service';
 
 import * as _ from 'lodash';
 import {ApiService} from '../../services/api.service';
+import {eos, telos} from '../../../config';
 
 @Component({
   selector: 'app-tweets',
@@ -25,9 +26,11 @@ export class TweetsComponent implements OnInit, OnDestroy {
   public avatarUrl = null;
   public avatarUploading = false;
   public avatarUploaded = false;
+  chain: any;
 
   constructor(private route: ActivatedRoute, private api: ApiService, private scatterService: ScatterService) {
     this.alive = true;
+    this.chain = window.location.hostname.startsWith('telos') ? telos: eos;
   }
 
   ngOnInit() {
