@@ -14,7 +14,7 @@ export const telos = {
   eosHost: 'api.eos.miami',
   eosPort: 443,
   eosProtocol: 'https',
-  blockchain: 'eos',
+  blockchain: 'tlos',
   chainApiId: '2',
   chainId: '4667b205c6838ef70ff7988f6e8257e8be0e1284a2f59699054a018f743b1d11',
   explorer: 'https://telos.eosx.io/tx/'

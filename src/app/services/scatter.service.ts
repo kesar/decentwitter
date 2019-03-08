@@ -15,7 +15,6 @@ export class ScatterService {
 
   constructor() {
     this.chain = window.location.hostname.startsWith('telos') ? telos: eos;
-    // this.chain = telos;
     this.network =  {
       blockchain: this.chain.blockchain,
       protocol: this.chain.eosProtocol,
@@ -25,8 +24,8 @@ export class ScatterService {
     };
   }
 
-  load() {
-
+  load(chainName: string = 'eos') {
+    this.network.blockchain = chainName;
     ScatterJS.scatter.connect('Decentwitter').then(connected => {
       if (!connected) {
         return false;
@@ -37,15 +36,28 @@ export class ScatterService {
     if (this.scatter) {
       this.eos = this.scatter.eos(this.network, Eos, {chainId: this.chain.chainId}, this.chain.eosProtocol);
     }
-
   }
 
-  login() {
+  updateScatterWithDifferentChain(chainName: string) {
+    this.network.blockchain = chainName;
+    this.eos = this.scatter.eos(this.network, Eos, {chainId: this.chain.chainId}, this.chain.eosProtocol);
+    console.log(this.scatter.identity);
+  }
+
+  async login() {
     const requirements = {accounts: [this.network]};
-    return this.scatter.getIdentity(requirements);
+    try {
+      return await this.scatter.getIdentity(requirements);
+    } catch(err) {
+      if (err.type === 'no_network' && this.network.blockchain === 'tlos') { // sqrl thing
+        await this.updateScatterWithDifferentChain('eos');
+        this.login();
+      }
+    }
   }
 
   logout() {
+    this.identity = null;
     this.scatter.forgetIdentity();
   }
 
@@ -57,27 +69,31 @@ export class ScatterService {
     if (!this.scatter || !this.scatter.identity) {
       return;
     }
-    const account = this.scatter.identity.accounts.find(acc => acc.blockchain === this.chain.blockchain);
+    const chainName = this.scatter.identity.accounts[0].blockchain;
+    const account = this.scatter.identity.accounts.find(acc => acc.blockchain === chainName);
     return account.name;
   }
 
   tweet(msg: string) {
-    this.load();
-    const account = this.scatter.identity.accounts.find(acc => acc.blockchain === this.chain.blockchain);
+    const chainName = this.scatter.identity.accounts[0].blockchain;
+    this.load(chainName);
+    const account = this.scatter.identity.accounts.find(acc => acc.blockchain === chainName);
     const options = {authorization: [`${account.name}@${account.authority}`]};
     return this.eos.contract('decentwitter').then(contract => contract.tweet(msg, options));
   }
 
   reply(msg: string, id: string) {
-    this.load();
-    const account = this.scatter.identity.accounts.find(acc => acc.blockchain === this.chain.blockchain);
+    const chainName = this.scatter.identity.accounts[0].blockchain;
+    this.load(chainName);
+    const account = this.scatter.identity.accounts.find(acc => acc.blockchain === chainName);
     const options = {authorization: [`${account.name}@${account.authority}`]};
     return this.eos.contract('decentwitter').then(contract => contract.reply({id: id, msg: msg}, options));
   }
 
   avatar(url: string) {
-    this.load();
-    const account = this.scatter.identity.accounts.find(acc => acc.blockchain === this.chain.blockchain);
+    const chainName = this.scatter.identity.accounts[0].blockchain;
+    this.load(chainName);
+    const account = this.scatter.identity.accounts.find(acc => acc.blockchain === chainName);
     const options = {authorization: [`${account.name}@${account.authority}`]};
     return this.eos.contract('decentwitter').then(contract => contract.avatar(url, options));
   }
