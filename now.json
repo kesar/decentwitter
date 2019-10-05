@@ -1,7 +1,6 @@
 {
   "version": 2,
   "name": "decentwitter",
-  "alias": ["telos.decentwitter.com", "decentwitter.com", "bos.decentwitter.com", "eos.decentwitter.com"],
   "builds": [
     {
       "src": "package.json",
