@@ -1,5 +1,5 @@
 export const eos = {
-  apiUrl: 'https://api.eostracker.io',
+  apiUrl: 'https://eos-tracker-api.herokuapp.com',
   eosHost: 'eos.greymass.com',
   eosPort: 443,
   eosProtocol: 'https',
@@ -10,7 +10,7 @@ export const eos = {
 };
 
 export const telos = {
-  apiUrl: 'https://api.eostracker.io',
+  apiUrl: 'https://eos-tracker-api.herokuapp.com',
   eosHost: 'api.eos.miami',
   eosPort: 443,
   eosProtocol: 'https',

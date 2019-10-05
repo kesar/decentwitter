@@ -40,7 +40,7 @@
           <div class="panel-body">
             <app-loading *ngIf="!name"></app-loading>
             <div align="center" *ngIf="name">
-              <img [src]="'//api.eostracker.io/tweets/'+ name +'/avatar.png'" class="img-circle avatar" />
+              <img [src]="'//eos-tracker-api.herokuapp.com/tweets/'+ name +'/avatar.png'" class="img-circle avatar" />
               <br />
               <br />
               <div><b>{{name}}</b></div>
@@ -80,7 +80,7 @@
             >
               <li class="left clearfix" *ngFor="let tweet of tweets; let i = index; let odd = odd; let even = even" [ngClass]="{ odd: odd, even: even}">
                 <span class="chat-img pull-left">
-                    <img [src]="'//api.eostracker.io/tweets/'+ tweet.actor +'/avatar.png'" class="img-circle avatar" />
+                    <img [src]="'//eos-tracker-api.herokuapp.com/tweets/'+ tweet.actor +'/avatar.png'" class="img-circle avatar" />
                 </span>
                 <div class="chat-body clearfix">
                   <div class="header">
