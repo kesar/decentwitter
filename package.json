@@ -27,7 +27,7 @@
     "compression": "^1.7.3",
     "core-js": "^2.4.1",
     "eosjs": "^15.0.1",
-    "express": "^4.16.3",
+    "express": "^4.17.3",
     "lodash": "^4.17.10",
     "ngx-infinite-scroll": "^0.8.4",
     "ngx-webstorage": "^2.0.1",
